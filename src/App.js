@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [message, setMessage] = useState('');
-  const [items, setItems] = useState('');
-  const [allGrocery, setAllGrocery] = useState([]);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
 
   const fetchHello = async () => {
     const helloFetch = await fetch(`/functions/hello`);
@@ -13,17 +13,17 @@ function App() {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-    if (items) {
-      try {
-        await fetch(`/functions/grocery?input=${items}`)
-          .then((res) => res.text())
-          .then((text) => setAllGrocery([...allGrocery, text]));
-        setItems('');
-      } catch {
-        console.log('Items not added');
-      }
-    } else {
-      console.log('You have not added item name.');
+    try {
+      const encodedName = encodeURIComponent(name);
+      const encodedEmail = encodeURIComponent(email);
+      const sentEmail = await fetch(
+        `/functions/email?name=${encodedName}&email=${encodedEmail}`
+      );
+      const linkFormat = await sentEmail.json();
+      console.log(linkFormat);
+      setMailSent(true);
+    } catch {
+      console.log('Email not sent!');
     }
   };
 
@@ -36,11 +36,11 @@ function App() {
       <div className="container">
         <h2 className="fw-bold">{message}</h2>
         <section className="grocery-form">
-          <h4 className="pb-3">Add some groceries to your list items.</h4>
+          <h4 className="pb-3">Fill details below to send email.</h4>
           <form onSubmit={handelSubmit}>
             <input type="hidden" name="remember" value="true" />
             <div className="mb-3">
-              <label htmlFor="name-address">Grocery Name</label>
+              <label htmlFor="name-address">Person Name</label>
               <br />
               <input
                 id="name-address"
@@ -48,24 +48,31 @@ function App() {
                 type="text"
                 autoComplete="name"
                 className="form-control"
-                value={items}
-                onChange={(e) => setItems(e.currentTarget.value)}
+                value={name}
+                onChange={(e) => setName(e.currentTarget.value)}
+              />
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="name-address">Person Email</label>
+              <br />
+              <input
+                id="email-address"
+                name="email"
+                type="text"
+                autoComplete="name"
+                className="form-control"
+                value={email}
+                onChange={(e) => setEmail(e.currentTarget.value)}
               />
             </div>
 
             <div>
               <button className="btn btn-primary mt-3" type="submit">
-                Add Groceries
+                Send Email
               </button>
             </div>
           </form>
-        </section>
-        <section className="grocery-list">
-          <ul>
-            {allGrocery.map((item, index) => (
-              <li key={`${index}`}>{item}</li>
-            ))}
-          </ul>
         </section>
       </div>
     </div>
