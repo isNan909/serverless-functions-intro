@@ -22,7 +22,7 @@ exports.handler = async function (event, _context) {
     to: `${mailToEmail}`,
     subject: 'Hello ✔',
     text: `Hello ${mailToName}`,
-    html: `You have sucessfully added your email in our list. Your email is: ${mailToEmail}`,
+    html: `Bingo! You have sucessfully added your email in our list. <br/> Your email is: ${mailToEmail}`,
   });
 
   console.log('Message sent: %s', info.messageId);

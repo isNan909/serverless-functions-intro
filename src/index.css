@@ -12,14 +12,10 @@ code {
     monospace;
 }
 
-section.grocery-form {
+section.email-form {
   margin-top: 30px;
 }
 
-section.grocery-form .form-control{
+section.email-form .form-control{
   width: 50%;
-}
-
-section.grocery-list{
-  margin-top: 30px;
 }
