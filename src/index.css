@@ -11,3 +11,15 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+section.grocery-form {
+  margin-top: 30px;
+}
+
+section.grocery-form .form-control{
+  width: 50%;
+}
+
+section.grocery-list{
+  margin-top: 30px;
+}
